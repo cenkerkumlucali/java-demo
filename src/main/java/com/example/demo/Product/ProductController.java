@@ -4,6 +4,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @Controller
@@ -15,15 +16,26 @@ public class ProductController {
         this.productService = productService;
     }
 
-
     @GetMapping
     public List<Products> getProducts(){
     return productService.getProducts();
     }
 
+    @GetMapping(path = "{ProductId}")
+    public Optional<Products> FilterById(@PathVariable Integer ProductId){
+        return productService.findById(ProductId);
+    }
+
     @PostMapping
-    public void registerNewShoe(@RequestBody Products products){
+    public void add(@RequestBody Products products){
         productService.addNewProducts(products);
     }
+
+    @DeleteMapping(path = "{ProductId}")
+    public void deleteShoes(@PathVariable("ProductId")Integer ProductId){
+        productService.delete(ProductId);
+    }
+
+
 
 }

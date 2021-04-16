@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ProductService {
@@ -11,8 +12,8 @@ public class ProductService {
     private final ProductRepository _productRepository;
 
     @Autowired
-    public ProductService(ProductRepository _productRepository) {
-        this._productRepository = _productRepository;
+    public ProductService(ProductRepository productRepository) {
+        this._productRepository = productRepository;
     }
 
     public List<Products> getProducts(){
@@ -21,6 +22,15 @@ public class ProductService {
 
     public void addNewProducts(Products products) {
         _productRepository.save(products);
+    }
+
+
+    public void delete(Integer ProductId) {
+        _productRepository.deleteById(ProductId);
+    }
+
+    public Optional<Products> findById(Integer productId) {
+       return _productRepository.findById(productId);
     }
 
 }

@@ -5,9 +5,7 @@ import javax.persistence.*;
 @Entity
 @Table
 public class Products {
-
     @Id
-
     public int ProductId;
     public int CategoryId;
     public String ProductName;
@@ -23,6 +21,7 @@ public class Products {
         this.UnitsInStock = UnitsInStock;
         this.UnitPrice = UnitPrice;
     }
+
     public int getProductId() {
         return ProductId;
     }
