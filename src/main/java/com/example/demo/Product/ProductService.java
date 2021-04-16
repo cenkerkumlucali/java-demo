@@ -25,7 +25,6 @@ public class ProductService {
         _productRepository.save(products);
     }
 
-
     public void delete(Integer ProductId) {
         _productRepository.deleteById(ProductId);
     }
@@ -33,6 +32,7 @@ public class ProductService {
     public Optional<Products> findById(Integer productId) {
        return _productRepository.findById(productId);
     }
+
     public List<Products> findByCategoryId(Integer categoryId) {
         return _productRepository.findProductsByCategoryId(categoryId);
     }
