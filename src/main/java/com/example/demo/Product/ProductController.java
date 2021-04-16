@@ -8,7 +8,6 @@ import java.util.Optional;
 
 @RestController
 @Controller
-@RequestMapping(path="api/v1/products")
 public class ProductController {
     private final ProductService productService;
 
@@ -16,16 +15,20 @@ public class ProductController {
         this.productService = productService;
     }
 
-    @GetMapping
+
+    @GetMapping("api/v1/products")
     public List<Products> getProducts(){
     return productService.getProducts();
     }
 
-    @GetMapping(path = "{ProductId}")
+    @GetMapping(path = "api/v1/products/{ProductId}")
     public Optional<Products> FilterById(@PathVariable Integer ProductId){
         return productService.findById(ProductId);
     }
-
+    @GetMapping(path = "api/v1/products/Category/{CategoryId}")
+    public List<Products> FilterByCategoryId(@PathVariable Integer CategoryId){
+        return productService.findByCategoryId(CategoryId);
+    }
     @PostMapping
     public void add(@RequestBody Products products){
         productService.addNewProducts(products);
@@ -35,7 +38,5 @@ public class ProductController {
     public void deleteShoes(@PathVariable("ProductId")Integer ProductId){
         productService.delete(ProductId);
     }
-
-
 
 }

@@ -3,6 +3,7 @@ package com.example.demo.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,6 +32,9 @@ public class ProductService {
 
     public Optional<Products> findById(Integer productId) {
        return _productRepository.findById(productId);
+    }
+    public List<Products> findByCategoryId(Integer categoryId) {
+        return _productRepository.findProductsByCategoryId(categoryId);
     }
 
 }
