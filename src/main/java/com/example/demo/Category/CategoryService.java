@@ -25,7 +25,12 @@ public class CategoryService {
         return _categoryRepository.findById(categoryId);
     }
     public void addCategory(Category category){
+        Optional<Category> categoryNameExist = _categoryRepository.findCategoryByCategoryName(category.CategoryName);
+        if(categoryNameExist.isPresent()){
+            throw new IllegalStateException("Aynı isimde kategory ismi olamaz!");
+        }
         _categoryRepository.save(category);
+        System.out.println("Kategory başarılayla eklendi.");
     }
     public void deleteCategory(Integer CategoryId){_categoryRepository.deleteById(CategoryId);}
 }

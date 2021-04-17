@@ -19,14 +19,20 @@ public class ProductService {
 
     public List<Products> getProducts(){
         return _productRepository.findAll();
+
     }
 
     public void addNewProducts(Products products) {
+        Optional<Products> productByName = _productRepository.findProductsByProductName(products.getProductName());
+        if(productByName.isPresent()){
+            throw  new IllegalStateException("Aynı isimde 2 tane ürün ismi olamaz!");
+        }
         _productRepository.save(products);
+        System.out.println("Ürün eklendi");
     }
-
     public void delete(Integer ProductId) {
         _productRepository.deleteById(ProductId);
+        System.out.println("Ürün silindi");
     }
 
     public Optional<Products> findById(Integer productId) {

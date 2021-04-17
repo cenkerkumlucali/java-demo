@@ -28,6 +28,7 @@ public class ProductController {
     public List<Products> FilterByCategoryId(@PathVariable Integer CategoryId){
         return productService.findByCategoryId(CategoryId);
     }
+
     @PostMapping("api/v1/products/add")
     public void add(@RequestBody Products products){
         productService.addNewProducts(products);
