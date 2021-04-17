@@ -21,10 +21,8 @@ public class ProductService {
         return _productRepository.findAll();
 
     }
-
     public void addNewProducts(Products products) {
-        Optional<Products> productByName = _productRepository.findProductsByProductName(products.getProductName());
-        if(productByName.isPresent()){
+        if(productNameExist(products.ProductName)){
             throw  new IllegalStateException("Aynı isimde 2 tane ürün ismi olamaz!");
         }
         _productRepository.save(products);
@@ -43,4 +41,11 @@ public class ProductService {
         return _productRepository.findProductsByCategoryId(categoryId);
     }
 
+    private boolean productNameExist(String productName){
+     var result = _productRepository.findProductsByProductName(productName).isPresent();
+        if(result){
+            return true;
+        }
+        return false;
+    }
 }
