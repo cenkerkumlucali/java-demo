@@ -10,9 +10,11 @@ import java.util.Optional;
 @Controller
 public class ProductController {
     private final ProductService productService;
+    private final ProductRepository productRepository;
 
-    public ProductController(ProductService productService) {
+    public ProductController(ProductService productService, ProductRepository productRepository) {
         this.productService = productService;
+        this.productRepository = productRepository;
     }
     @GetMapping("api/v1/products")
     public List<Products> getProducts(){
@@ -39,5 +41,19 @@ public class ProductController {
         productService.delete(ProductId);
     }
 
-
+    @PutMapping("api/v1/products/{ProductId}")
+    public Products updateProducts(@PathVariable("ProductId")Integer ProductId, @RequestBody Products products){
+        return productRepository.findById(ProductId)
+                .map(product -> {
+                    products.setProductName(products.getProductName());
+                    product.setCategoryId(product.getCategoryId());
+                    product.setUnitPrice(product.getUnitPrice());
+                    product.setUnitsInStock(product.getUnitsInStock());
+                    return productRepository.save(products);
+                })
+                .orElseGet(() -> {
+                    products.setProductId(ProductId);
+                    return productRepository.save(products);
+                });
+    }
 }

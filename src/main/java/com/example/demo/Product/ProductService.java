@@ -23,9 +23,7 @@ public class ProductService {
     }
 
     public void addNewProducts(Products products) {
-        if(productNameExist(products.ProductName)){
-            throw  new IllegalStateException("Aynı isimde 2 tane ürün ismi olamaz!");
-        }
+
         _productRepository.save(products);
         System.out.println("Ürün eklendi");
     }
@@ -33,6 +31,7 @@ public class ProductService {
     public void delete(Integer ProductId) {
 
         if(productsExist(ProductId)){
+
             _productRepository.deleteById(ProductId);
             System.out.println("Ürün silindi");
         }
@@ -62,6 +61,13 @@ public class ProductService {
         var exists = _productRepository.existsById(ProductId);
         if(exists){
             return true;
+        }
+        return false;
+    }
+
+    private boolean checkProductByUnitPrice(Integer UnitPrice){
+        if (UnitPrice < 50){
+            return  true;
         }
         return false;
     }

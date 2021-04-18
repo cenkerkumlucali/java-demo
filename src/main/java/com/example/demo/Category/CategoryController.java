@@ -11,9 +11,11 @@ import java.util.Optional;
 
 public class CategoryController {
     private final CategoryService _categoryService;
+    private final CategoryRepository _categoryRepository;
 
-    public CategoryController(CategoryService categoryService) {
+    public CategoryController(CategoryService categoryService, CategoryRepository categoryRepository) {
         _categoryService = categoryService;
+        _categoryRepository = categoryRepository;
     }
 
 
@@ -31,4 +33,16 @@ public class CategoryController {
     }
     @DeleteMapping(path = "api/v1/category/{CategoryId}")
     public void delete(@PathVariable("CategoryId") Integer CategoryId){_categoryService.deleteCategory(CategoryId);}
+    @PutMapping("api/v1/category/{CategoryId}")
+    public Category update(@PathVariable("CategoryId")Integer CategoryId,@RequestBody Category category){
+        return _categoryRepository.findById(CategoryId)
+                .map(category1 -> {
+                    category1.setCategoryName(category.getCategoryName());
+                    return _categoryRepository.save(category);
+                })
+                .orElseGet(() -> {
+            category.setCategoryId(CategoryId);
+            return _categoryRepository.save((category));
+        });
+    }
 }
