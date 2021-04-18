@@ -32,11 +32,28 @@ public class CategoryService {
         _categoryRepository.save(category);
         System.out.println("Kategory başarılayla eklendi.");
     }
-    public void deleteCategory(Integer CategoryId){_categoryRepository.deleteById(CategoryId);}
+
+    public void deleteCategory(Integer CategoryId){
+        if(categoryExist(CategoryId))
+        {
+            _categoryRepository.deleteById(CategoryId);
+        }
+        else{
+            throw new IllegalStateException("category with id "+ CategoryId + "does not exists");
+        }
+    }
 
     private boolean categoryNameExist(String categoryName){
        var result= _categoryRepository.findCategoryByCategoryName(categoryName).isPresent();
         if(result){
+            return true;
+        }
+        return false;
+    }
+
+    private boolean categoryExist(Integer CategoryId){
+        var exists = _categoryRepository.existsById(CategoryId);
+        if(exists){
             return true;
         }
         return false;
